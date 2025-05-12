@@ -11,8 +11,11 @@ Derive business insights from rental data
 
 Prepare data for visualizations in Power BI
 
-SQL Queries & Insights
-``` 1. Top 10 Most-Rented Movies
+## SQL Queries & Insights
+
+### 1. Top 10 Most-Rented Movies
+
+```sql
 SELECT 
     f.title,
     c.name AS category,
@@ -31,5 +34,4 @@ GROUP BY
     f.film_id, f.title, c.name
 ORDER BY 
     movie_rental_count DESC
-LIMIT 10;
-
+LIMIT 10
