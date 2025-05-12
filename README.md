@@ -1,17 +1,31 @@
-# Dvd-Rental-Data-Analysis
-Movie & Category Performance – SQL Analysis
-This repository contains SQL queries and insights focused on analyzing movie performance and category trends in a DVD rental database.
+# DVD Rental Analytics
 
-Objectives
-Identify top-performing movies
+This project focuses on analyzing various aspects of a DVD rental business through SQL queries. The analysis is split into multiple parts:
 
-Analyze film category popularity and revenue
+1. **Part 1: Movie & Category Performance**  
+   Analyzes the performance of movies and categories based on rental data.
 
-Derive business insights from rental data
+2. **Part 2: Customer Insights**  
+   Focuses on customer behavior and segmentation, including RFM analysis.
 
-Prepare data for visualizations in Power BI
+3. **Part 3: Revenue & Payments**  
+   Explores revenue generation across different categories, films, and payment methods.
 
-## SQL Queries & Insights
+4. **Part 4: Store Performance**  
+   Compares store performance, staff efficiency, and rental trends.
+
+---
+
+## How to Use This Repository
+
+1. Navigate to the relevant part folder (e.g., `part-1-movie-category-performance/`) for SQL queries and analysis.
+2. Check the `README.md` in each part for more specific details on the analysis and insights.
+
+---
+
+## Part 1: Movie & Category Performance
+
+This part analyzes movie and category performance based on rental data. It includes queries for the top 10 most-rented movies, most popular film categories, and revenue generation by category.
 
 ### 1. Top 10 Most-Rented Movies
 
@@ -34,4 +48,29 @@ GROUP BY
     f.film_id, f.title, c.name
 ORDER BY 
     movie_rental_count DESC
-LIMIT 10
+LIMIT 10;
+Insight: The most-rented movies are predominantly Travel and Foreign titles, indicating a customer preference for culturally rich or globally themed content.
+
+### 2. Top 5 Most Popular Film Categories
+
+
+```sql
+SELECT * FROM 
+(
+    SELECT 
+        c.name, 
+        COUNT(fc.film_id) AS count_of_film_categories,
+        DENSE_RANK() OVER (ORDER BY COUNT(fc.film_id) DESC) AS category_rank
+    FROM 
+        film f
+    INNER JOIN 
+        film_category fc ON f.film_id = fc.film_id
+    INNER JOIN 
+        category c ON fc.category_id = c.category_id
+    GROUP BY 
+        c.name
+    ORDER BY 
+        category_rank
+) AS ranked_categories
+WHERE category_rank BETWEEN 1 AND 5;
+
