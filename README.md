@@ -100,7 +100,7 @@ GROUP BY
 ORDER BY 
     total_revenue DESC
 ```
-Sports, Sci-Fi, Animation, and Drama are the top revenue-generating categories, reflecting a strong customer appetite for both high-adrenaline and emotionally engaging storytelling.
+Insight: Sports, Sci-Fi, Animation, and Drama are the top revenue-generating categories, reflecting a strong customer appetite for both high-adrenaline and emotionally engaging storytelling.
 
 
 
