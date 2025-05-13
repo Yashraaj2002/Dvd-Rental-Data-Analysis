@@ -73,7 +73,7 @@ SELECT * FROM
     ORDER BY 
         category_rank
 ) AS ranked_categories
-WHERE category_rank BETWEEN 1 AND 5
+WHERE category_rank BETWEEN 1 AND 5;
 ```
 Insight: Sports remains the most popular film category, followed closely by Foreign and Family, suggesting a demand for fast-paced and thrilling genres.
 
@@ -98,7 +98,7 @@ JOIN
 GROUP BY 
     c.name
 ORDER BY 
-    total_revenue DESC
+    total_revenue DESC;
 ```
 Insight: Sports, Sci-Fi, Animation, and Drama are the top revenue-generating categories, reflecting a strong customer appetite for both high-adrenaline and emotionally engaging storytelling.
 
@@ -145,7 +145,7 @@ GROUP BY
     country
 ORDER BY 
     total_customers DESC
-LIMIT 10
+LIMIT 10;
 ```
 Insight: India, China, and the United States account for the largest customer bases, indicating strong market potential in Asia and North America for targeted campaigns or business growth.
 
@@ -164,7 +164,7 @@ JOIN
 GROUP BY 
     r.customer_id
 ORDER BY 
-    recency, frequency DESC, monetary DESC
+    recency, frequency DESC, monetary DESC;
 ```
 Insight: RFM scores identify your most valuable and loyal customers, enabling strategic segmentation for marketing efforts.
 
@@ -179,9 +179,64 @@ FROM
 GROUP BY 
     rental_day
 ORDER BY 
-    rental_count DESC
+    rental_count DESC;
 ```
 Insight: Rental activity peaks on weekends, with Friday, Saturday, and Sunday being the busiest days—suggesting strong demand for leisure-time entertainment and ideal timing for promotional campaigns.
+
+## Part 2: Revenue & Payments
+
+### 1. How does revenue vary on a monthly basis?
+
+```sql
+SELECT 
+    TO_CHAR(payment_date, 'Month') AS month,
+    EXTRACT(MONTH FROM payment_date) AS month_number,
+    SUM(amount) AS total_amount
+FROM 
+    payment
+GROUP BY 
+    TO_CHAR(payment_date, 'Month'),
+    EXTRACT(MONTH FROM payment_date)
+ORDER BY 
+    total_amount DESC;
+```
+Insight: Revenue peaks in the spring months — especially April and March — indicating strong seasonal demand during the first half of the year. This pattern can help guide marketing and inventory strategies for early-year engagement.
+
+### 2. How are movies distributed across different length categories?
+
+```sql
+SELECT 
+    CASE
+        WHEN length <= 60 THEN 'Short Movie'        -- Documentaries, kids' specials
+        WHEN length < 90 THEN 'Medium'              -- Shorter feature films or indie titles
+        WHEN length < 120 THEN 'Feature'            -- Standard-length movies
+        ELSE 'Extended'                             -- Long features or epic films
+    END AS length_category,
+    COUNT(*) AS movie_count
+FROM 
+    film
+GROUP BY 
+    length_category
+ORDER BY 
+    movie_count DESC;
+```
+Insight: The majority of movies fall into the Extended and Feature categories, with extended films leading the count. This suggests a preference for longer, more immersive viewing experiences, with shorter films (Medium and Short) playing a more niche role in the rental market.
+
+### 3. What time of day generates the most revenue?
+
+```sql
+SELECT 
+    EXTRACT(HOUR FROM payment_date) AS hour_of_day,
+    SUM(amount) AS total_revenue
+FROM 
+    payment
+GROUP BY 
+    hour_of_day
+ORDER BY 
+    total_revenue DESC;
+```
+Insight: The peak revenue hours are 18:00 (6 PM), 08:00 (8 AM), 14:00 (2 PM), and 00:00 (midnight), This pattern reflects both early risers and night-time users, indicating consistent demand throughout the day with surges around commuting and leisure hours.
+
 
 
 
