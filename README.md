@@ -1,4 +1,4 @@
-# DVD Rental Analytics
+# Customer Insights & Revenue Optimization Analytics
 
 This project focuses on analyzing various aspects of a DVD rental business through SQL queries. The analysis is split into multiple parts:
 
