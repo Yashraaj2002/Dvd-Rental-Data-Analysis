@@ -183,7 +183,7 @@ ORDER BY
 ```
 Insight: Rental activity peaks on weekends, with Friday, Saturday, and Sunday being the busiest days—suggesting strong demand for leisure-time entertainment and ideal timing for promotional campaigns.
 
-## Part 2: Revenue & Payments
+## Part 3: Revenue & Payments
 
 ### 1. How does revenue vary on a monthly basis?
 
