@@ -102,5 +102,93 @@ ORDER BY
 ```
 Insight: Sports, Sci-Fi, Animation, and Drama are the top revenue-generating categories, reflecting a strong customer appetite for both high-adrenaline and emotionally engaging storytelling.
 
+## Part 2: Customer Insights
+
+This part focuses on customer behavior and engagement. It includes queries for top spenders, customer distribution by country, RFM analysis and rental day preferences.
+
+### 1. Top 10 Customers by Total Spending
+
+```sql
+SELECT 
+    c.customer_id,
+    c.first_name,
+    c.last_name,
+    SUM(p.amount) AS total_spent
+FROM 
+    customer c
+INNER JOIN 
+    payment p ON c.customer_id = p.customer_id
+GROUP BY 
+    c.customer_id, c.first_name, c.last_name
+ORDER BY 
+    total_spent DESC
+LIMIT 10;
+```
+Insight: These top spenders are key revenue contributors, highlighting high-value customers worth targeting for loyalty rewards.
+
+
+### 2. Top 10 Countries by Number of Customers
+
+```sql
+SELECT 
+    country,
+    COUNT(*) AS total_customers
+FROM 
+    customer c 
+JOIN 
+    address a ON c.address_id = a.address_id  
+JOIN 
+    city ci ON a.city_id = ci.city_id 
+JOIN 
+    country co ON ci.country_id = co.country_id
+GROUP BY 
+    country
+ORDER BY 
+    total_customers DESC
+LIMIT 10
+```
+Insight: India, China, and the United States account for the largest customer bases, indicating strong market potential in Asia and North America for targeted campaigns or business growth.
+
+### 3. RFM Analysis: Recency, Frequency, and Monetary Value per Customer
+
+```sql
+SELECT 
+    r.customer_id,
+    CURRENT_DATE - MAX(r.rental_date) AS recency,   -- Recency: Date difference between today and most recent rental date
+    COUNT(r.rental_id) AS frequency,                 -- Frequency: Count of rentals per customer
+    SUM(p.amount) AS monetary                        -- Monetary: Total amount spent by the customer
+FROM 
+    rental r
+JOIN 
+    payment p ON r.rental_id = p.rental_id
+GROUP BY 
+    r.customer_id
+ORDER BY 
+    recency, frequency DESC, monetary DESC
+```
+Insight: RFM scores identify your most valuable and loyal customers, enabling strategic segmentation for marketing efforts.
+
+### 4. RFM Analysis: Recency, Frequency, and Monetary Value per Customer
+
+```sql
+SELECT 
+    TO_CHAR(rental_date, 'Day') AS rental_day,
+    COUNT(*) AS rental_count
+FROM 
+    rental
+GROUP BY 
+    rental_day
+ORDER BY 
+    rental_count DESC
+```
+Insight: Rental activity peaks on weekends, with Friday, Saturday, and Sunday being the busiest days—suggesting strong demand for leisure-time entertainment and ideal timing for promotional campaigns.
+
+
+
+
+
+
+
+
 
 
